@@ -156,7 +156,12 @@ def add_notifications
 end
 
 def add_hotwire
-  run "./bin/rails hotwire:install"
+  rails_command "hotwire:install"
+end
+
+def create_and_migrate_db
+  rails_command "db:create"
+  rails_command "db:migrate"
 end
 
 def add_administrate
@@ -228,7 +233,6 @@ after_bundle do
   add_notifications
   add_sidekiq
   add_friendly_id
-  add_administrate
   add_hotwire
 
   copy_templates
@@ -236,6 +240,10 @@ after_bundle do
   add_sitemap
 
   rails_command "active_storage:install"
+
+  create_and_migrate_db
+
+  add_administrate
 
   # Commit everything to git
   unless ENV["SKIP_GIT"]
@@ -257,8 +265,6 @@ after_bundle do
   say
   say "  # Update config/database.yml with your database credentials"
   say
-  say "  rails db:create && rails db:migrate"
-  say "  rails g administrate:install # Generate admin dashboards"
   say "  gem install foreman"
   say "  foreman start # Run Rails, sidekiq, and webpack-dev-server"
 end

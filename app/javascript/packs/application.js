@@ -4,7 +4,7 @@
 // that code so it'll be compiled.
 
 require('@rails/ujs').start();
-require('hotwired/turbo');
+require('@hotwired/turbo');
 require('@rails/activestorage').start();
 require('channels');
 require('local-time').start();
